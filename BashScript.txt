@@ -1,0 +1,55 @@
+#!/bin/bash
+nano ~/.bashrc #execute this line first then paste the function below into file
+initLookUpCreate(){ #to save and exit nano hit ctrl+0, Enter, then ctrl+x
+  cd / && ls -la && sudo mkdir -v "$1"
+}
+source ~/.bashrc #execute this line last after the function above has been pasted
+
+source ~/../box/sample1.txt
+
+echo -e "\n"
+sayHello
+
+echo -e "\nLet's loop thru something!"
+doLoops
+
+echo -e "\nLet's do a while loop!"
+doWhileLoops
+
+echo -e "\nLet's do a until loop!"
+doUntilLoops
+
+echo -e "\nLet's check out advance functions!"
+result=$(doAdvancedFun Jerome 5 3)
+echo -e "\t"$result"\n"
+
+shd
+cd /
+pwd
+ls -la
+
+echo -e "\n"
+
+shd
+cd box
+pwd
+mkdir jTmp
+ls -la
+
+mv sample1.txt /box/jTmp
+
+echo -e "\n"
+
+shd
+pwd
+ls -la
+
+echo -e "\n"
+
+shd
+cd jTmp
+pwd
+ls -la
+
+#initLookUpCreate new_folder
+

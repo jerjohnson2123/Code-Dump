@@ -1,0 +1,94 @@
+#---List of commands---
+$ls # - List directory contents
+  #(-l) - Long listing format
+  #(-a) - Include hidden files
+  #(-h) - Human-readable sizes
+  #(-t) - Sort by modification time
+  #(-r) - Reverse order while sorting
+  #(-R) - List subdirectories recursively
+  #(-S) - Sort by file size
+  #(-1) - List one file per line
+  #(-d) - List directories themselves, not their contents
+  #(-F) - Append indicator (one of */=@|) to entries
+$cd # - Change the current directory
+  #(cd ..) - Move up one directory level
+  #(cd ~) - Change to the home directory
+  #(cd -) - Switch to the previous directory
+  #(cd /) - Change to the root directory
+$pwd # - Print the current working directory
+  #(-L) - Display the logical current working directory
+  #(-P) - Display the physical current working directory (without symbolic links)
+$echo # - Display a line of text
+  #(-n) - Don't add a new line at the end
+  #(-e) - Allow special characters like \n for new lines
+  #(-E) - Don't allow special characters (default)
+$cat # - Concatenate and display files
+  #(-n) - Add numbers to each line
+  #(-b) - Add numbers only to lines with text
+  #(-s) - Remove extra empty lines
+  #(-v) - Show non-printing characters (except for tabs and end of line)
+  #EXAMPLE $cat file1.txt file2.txt > combined.txt
+$cp # - Copy files and directories
+  #(-r) - Copy all files and folders inside a directory
+  #(-i) - Ask before replacing files
+  #(-u) - Copy only if the source is newer
+  #(-v) - Verbose mode, show files being copied
+  #EXAMPLE $cp file1.txt copy_file1.txt || $cp *.txt /destination/
+$mv # - Move or Rename files
+  #(-i) - Ask before replacing files
+  #(-u) - Move only if the source is newer
+  #(-v) - Verbose mode, show files being moved
+  #EXAMPLE $mv old_name.txt new_name.txt || $mv *.txt /destination/
+$rm # - Delete files or folders
+  #(-r) - Delete a folder and everything inside it
+  #(-i) - Ask before deleting each file
+  #(-f) - Force delete without asking
+  #(-v) - Verbose mode, show files being removed
+  #EXAMPLE $rm file.txt || $rm -r directory
+$touch # - Create an empty files or update its time
+  #(-a) - Update only when the file was last read
+  #(-m) - Update only when the file was last changed
+  #(-t) - Set the timestamp to a specific time
+  #(-c) - do not create any files
+$mkdir # - Create a new folder
+  #(-p) - Create parent directories as needed
+  #(-v) - Show a message for each created directory
+  #(-m) - Set file mode (permissions)
+$man # - Used to get help on a command NOTE: on windows use [command] --help
+  #EXAMPLE $man ls || ls --help
+$alias # - Used to create shortcuts for long or frequently used commands
+  #EXAMPLE $alias ll='ls -la' || $alias gs='git status'
+  #alias - when used without arguments it list current aliases
+  #unalias - removes an alias
+  #EXAMPLE $unalias gs || $unalias ll
+  #Below is an example on how to create a permanent alias
+  #$nano ~/.bashrc - Opens Editor
+  #$alias ll='ls -la' - Adds Alias
+  #$source ~/.bashrc - Saves and Applies
+  #or
+  #$nano ~/.bash_profile - Opens Editor
+  #$alias ll='ls -la' - Adds Alias
+  #$source ~/.bash_profile - Saves and Applies
+$grep # - Used to search for text patterns within files
+  #(-i) - Search ignoring case differences (uppercase or lowercase)
+  #(-r) - Search through all files in a directory and its subdirectories
+  #(-v) - Find lines that do not match the pattern
+$awk # - Used for pattern scanning and processing language
+  #(-F) - Set what separates the data fields (usually a comma)
+  #(-v) - Set a variable to be used in the script
+  #(-f) - Use a file as the source of the awk program
+  #EXAMPLE $awk -F"," '{print $1}' example_data.csv
+  #or
+  #$awk -F"," -v var="Amount:" '{print var, $3}' example_data.csv
+$sed # - A stream editor used to perform basic text transformations on an input stream
+  #(-i) - Edit files directly without needing to save separately
+  #(-e) - Add the script to the commands to be executed
+  #(-n) - Don't automatically print lines
+  #(-r) - Use extended regular expressions
+  #(-f) - Add script from a file
+  #(-l) - Specify line length for 1 command
+  #EXAMPLE below
+  #$sed 's/World/Bash/' example_text.txt
+  #Hello Bash
+  #Line 1
+  #Line 2

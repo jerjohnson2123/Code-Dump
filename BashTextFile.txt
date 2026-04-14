@@ -1,0 +1,49 @@
+shd(){
+  echo -n "current directory: "
+}
+
+sayHello(){
+  local msg="Hello and welcome. We are learning how to work with BASH!"
+  echo $msg
+}
+
+doMath(){
+  local num1=5; local num2=10; local sum=$((num1 + num2))
+  if [ $sum -eq  15 ]; then
+    echo -e "\tThe number is: $sum\n"
+  elif [ $sum -lt 15 ]; then
+    echo -e "\tNumber is less than 15\n"
+  else
+    echo -e "\tWe're going to need a new number\n"
+  fi
+}
+
+doLoops(){
+  for i in {1..5}; do
+    echo -e "\tIteration: $i"
+  done
+}
+
+doWhileLoops(){
+  count=1
+  while [ $count -le 5 ]; do
+    echo -e "\tCount is $count"
+    ((count++))
+  done
+}
+
+doUntilLoops(){
+  count=1
+  until [ $count -gt 5 ]; do
+    echo -e "\tCount is $count"
+    ((count++))
+  done
+}
+
+doAdvancedFun(){
+  local name=$1
+  local sum=$(($2 + $3))
+  echo "Hello, $name!"
+  echo " Your result is: $sum"
+  
+}
