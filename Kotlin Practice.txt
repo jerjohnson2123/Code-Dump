@@ -1,0 +1,63 @@
+fun displayInfo(fName:String, lName:String, age:Int, fullName:String){
+  println()
+  
+  var greeting: String = "Hello $fName. How are you?"
+  
+  var isActive: Boolean = true
+  var isNamed: Boolean = true
+  
+  while(isActive){
+    println()
+    println("Do you want to make this inactive? Enter 'y' for yes, 'n' for no: ")
+    println()
+    
+    val input = readLine()!!
+    
+    if (input.isNotEmpty()){
+      val choice = input[0]
+    
+      if(choice == 'y' || choice == 'Y'){
+        isActive = false
+      }else if (choice == 'n' || choice == 'N'){
+        isActive = false
+        isNamed = false
+      }else{
+        println("I guess we are stuck in a loop. Let's ask again...")
+      }
+    }else{
+      println("You didn't type anything! Try again.")
+    }
+  }
+  
+  if(isNamed){
+    println(greeting)
+    println()
+    println("---Your Information---")
+    println("Full Name: $fullName")
+    println("Age: $age")
+  }else{
+    println("Uh Oh, you don't have a name!")
+  }
+}
+
+fun main(args: Array<String>) {
+  print("Enter First Name: ")
+  var fName: String = readLine()!!
+  
+  println()
+  
+  print("Enter Last Name: ")
+  var lName: String = readLine()!!
+  
+  println()
+  
+  val cName = "$fName $lName" //also called fullName in displayInfo Function
+  
+  print("Enter Age: ")
+  var age: Int = readLine()!!.toInt()
+  
+  displayInfo(fName, lName, age, cName)
+}
+
+
+

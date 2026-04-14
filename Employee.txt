@@ -1,0 +1,313 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// --- Person Class ---
+class Person {
+    // Created variables for person and set to private
+    private:
+        int age;
+        int id;
+        string firstName;
+        string lastName;
+
+    public:
+        // CONSTRUCTOR: This lets you create a person with data immediately.
+        // Default values (like id=0) allow you to create an empty array.
+        Person(int i = 0, string fn = "", string ln = "", int a = 0) {
+            id = i;
+            firstName = fn;
+            lastName = ln;
+            age = a;
+        }
+
+        // SETTERS
+        void setFirstName(string fn) {
+            firstName = fn;
+        }
+        void setLastName(string ln) {
+            lastName = ln;
+        }
+        void setAge(int a) {
+            age = a;
+        }
+        void setID(int i) {
+            id = i;
+        }
+
+        // GETTERS
+        string getFirstName(){
+            return firstName;
+        }
+        string getLastName(){
+            return lastName;
+        }
+        string getFullName() {
+            return firstName + " " + lastName;
+        }
+        int getAge() {
+            return age;
+        }
+        int getID() {
+            return id;
+        }
+    };
+
+// --- Employee Class --- Inheritance from Person Class
+class Employee : public Person {
+    // Created variables for Employee class and set to private
+    private:
+        int employeeID;
+        
+    public:
+        // Constructor validates age before setting up the Employee
+        Employee() : Person(), employeeID(0){
+        }
+        
+        // Method to upgrade a Person to Employee with validation
+        /* Method passes arguments which are Person object ‘p’, Employee object ‘currentStaff array, int staffCount*/
+        void promote(Person p, Employee currentStaff[], int staffCount)
+        {
+	// set the information for the employee by getting it from the Person object
+            setID(p.getID());
+            setFirstName(p.getFirstName());
+            setLastName(p.getLastName());
+            setAge(p.getAge());
+            
+	// try catch block to determine if person is 16 or older
+            if (p.getAge() < 16){
+                employeeID = 0;
+                throw invalid_argument("Person must be 16 or older to work.");
+            }
+            // Generate 5-digit ID: 10000
+            int newID = 10000;
+            
+            // Check for duplicate IDs and if found adds 1 to the employeeID
+            bool isDup = true;
+            while (isDup){
+                isDup = false;
+                for (int j=0; j<staffCount; j++){
+                    if (currentStaff[j].getEmployeeID() == newID){
+                        newID++; // Increment ID by +1 if already assigned
+                        isDup = true;
+                        break;
+                    }
+                }
+            }
+            employeeID = newID;
+        }
+        
+        int getEmployeeID(){
+            return employeeID;
+        }
+};
+
+// Function Prototypes to tell compiler about all methods before use
+string confirmName(string prompt);
+int confirmAge(string prompt);
+void displayStaff(Employee staff[], int totalCount);
+void updateEmployee(Employee staff[], int totalCount);
+void createEmployee(Employee staff[], int& totalCount, int MAX_SIZE);
+void deleteEmployee(Employee staff[], int& totalCount);
+
+// Name validation Method
+string confirmName(string prompt) {
+    string input;
+    int confirm = 2; // 2 means "No/Change"
+    
+    while (confirm != 1) {
+        cout << prompt;
+        cin >> input;
+        cout << "You entered: (" << input << ") Is this correct? (1 for Yes, 2 for No): ";
+        cin >> confirm;
+    }
+    return input;
+}
+
+// Age validation Method
+int confirmAge(string prompt) {
+    int input;
+    int confirm = 2; // 2 means "No/Change"
+    
+    while (confirm != 1) {
+        cout << prompt;
+        cin >> input;
+        cout << "You entered: (" << input << ") Is this correct? (1 for Yes, 2 for No): ";
+        cin >> confirm;
+    }
+    return input;
+}
+
+// create employee Method
+void createEmployee(Employee staff[], int& totalCount, int MAX_SIZE){
+    if (totalCount >= MAX_SIZE){
+            cout << "Error: Maximum capacity reached." << endl;
+            return;
+        }
+        
+        cout << "\nSetting up Person #" << (totalCount + 1) << ":" << endl;
+        // call Name validation Methods to set First name, Last name, and Age
+        string fn = confirmName("Enter First Name: ");
+        string ln = confirmName("Enter Last Name: ");
+        int ageInput = confirmAge("Enter age: ");
+        
+        // Create temp object to store new person
+        Person temp(totalCount + 1, fn, ln, ageInput);
+        
+        // try catch block to promote person to staff if they meet the age requirement
+        try{
+            // pass the current staff array and count (i) to check for dups
+            staff[totalCount].promote(temp, staff, totalCount);
+            cout << "Successfully registered as Employee!" << staff[totalCount].getEmployeeID() << endl;
+        } catch(const invalid_argument& e) {
+            // We still set the basic Person info even if they aren't an employee
+            staff[totalCount].setID(temp.getID());
+            staff[totalCount].setFirstName(temp.getFirstName());
+            staff[totalCount].setLastName(temp.getLastName());
+            staff[totalCount].setAge(temp.getAge());
+            
+            cout << "STATUS: " << e.what() << " (Saved as Person only)" << endl;
+        }
+        
+        totalCount++;
+}
+
+// Method to update employee info by looking up employee ID
+void updateEmployee(Employee staff[], int totalCount){
+    int searchID;
+    cout << "\nEnter the Employee ID you wish to update: ";
+    cin >> searchID;
+    
+    bool found = false;
+    for(int i=0; i < totalCount; i++){
+        if(staff[i].getEmployeeID() == searchID){
+            found = true;
+            int choice;
+            cout << "\nUpdating: " << staff[i].getFullName() << endl;
+            cout << "1. Update First Name\n2. Update Last Name\n3. Update Age\n";
+            cout << "\nMake A Selection: ";
+            cin >> choice;
+            
+	// Switch case to select what piece of info to update
+            switch (choice){
+                case 1:
+                    staff[i].setFirstName(confirmName("Enter New First Name: "));
+                    break;
+                case 2:
+                    staff[i].setLastName(confirmName("Enter New Last Name: "));
+                    break;
+                case 3:
+                    staff[i].setAge(confirmAge("Enter new Age: "));
+                    break;
+                default:
+                    cout << "Invalid selection. No changes made." << endl;
+            }
+            cout << "Update complete!" << endl;
+            break; // Exit loop once employee is found and updated
+        }
+    }
+    // checks if employee exist
+    if (!found){
+        cout << "Employee ID " << searchID << " not found." << endl;
+    }
+}
+
+void deleteEmployee(Employee staff[], int& totalCount) {
+    if (totalCount == 0) {
+        cout << "No employees to delete." << endl;
+        return;
+    }
+
+    int searchID;
+    cout << "\nEnter the Employee ID you wish to delete: ";
+    cin >> searchID;
+
+    int index = -1;
+    for (int i = 0; i < totalCount; i++) {
+        if (staff[i].getEmployeeID() == searchID) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index != -1) {
+        // Shift everything after the deleted item to the left
+        for (int i = index; i < totalCount - 1; i++) {
+            staff[i] = staff[i + 1];
+        }
+        totalCount--; // Reduce the count
+        cout << "Employee " << searchID << " deleted successfully." << endl;
+    } else {
+        cout << "Employee ID " << searchID << " not found." << endl;
+    }
+}
+
+// Display all employees and their info Method
+void displayStaff(Employee staff[], int totalCount){
+    // Displaying the results using a simple loop
+    cout << "\n--- Final List ---\n";
+    cout << "ID\tName\t\tAge\tEmployee ID\n";
+    cout << "--------------------------------------------\n";
+    for (int i = 0; i < totalCount; i++) {
+        cout << staff[i].getID() << "\t"
+             << staff[i].getFullName() << "\t"
+             << staff[i].getAge() << "\t";
+             
+        if (staff[i].getEmployeeID() == 0){
+            cout << "N/A" << endl;
+        }else{
+            cout << staff[i].getEmployeeID() << endl;
+        }
+    }
+}
+
+int main() {
+    // setting variables
+    const int MAX_SIZE = 100; // Max staff size
+    Employee staff[MAX_SIZE]; // staff object created from Employee class
+    int totalCount = 0; // keeps count of staff size
+    char choice; // choice for adding another person 
+    int updateInfo = 2; // choice for updating employee info
+    int menuChoice = 0;
+
+    while (menuChoice !=5){
+        cout << "\n--- Employee Management System ---\n";
+        cout << "1. Create New Employee\n";
+        cout << "2. Update Employee Info\n";
+        cout << "3. Display All Employees\n";
+        cout << "4. Delete An Employee\n";
+        cout << "5. Exit Program\n";
+        cout << "Selection: ";
+        cin >> menuChoice;
+        
+        switch (menuChoice){
+            case 1:
+                createEmployee(staff, totalCount, MAX_SIZE);
+                break;
+            case 2:
+                updateEmployee(staff, totalCount);
+                break;
+            case 3:
+                displayStaff(staff, totalCount);
+                break;
+            case 4:
+                deleteEmployee(staff, totalCount);
+                break;
+            case 5:
+                cout << "\nExiting program. Goodbye!" << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+

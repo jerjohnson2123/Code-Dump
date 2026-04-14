@@ -1,0 +1,71 @@
+
+-- create
+CREATE TABLE EMPLOYEE (
+  empId INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  city TEXT NOT NULL,
+  state TEXT NOT NULL,
+  dept TEXT NOT NULL
+);
+
+-- create
+CREATE TABLE JOBTITLE (
+  jobID INTEGER PRIMARY KEY,
+  title TEXT NOT NULL
+);
+
+-- insert into Employee Table
+INSERT INTO EMPLOYEE VALUES 
+(0001, 'Clark', 'Phoenix', 'Arizona', 'Sales'),
+(0002, 'Dave', 'Omaha', 'Nebraska', 'Accounting'),
+(0003, 'Ava', 'Austin', 'Texas', 'Sales');
+
+-- insert into Jobtitle Table
+INSERT INTO JOBTITLE VALUES 
+(001, 'Sales Manager'),
+(002, 'Regional Sales Manager');
+
+-- fetch 
+SELECT EMPLOYEE.empID, EMPLOYEE.name, EMPLOYEE.dept FROM EMPLOYEE;
+SELECT JOBTITLE.title, JOBTITLE.jobID FROM JOBTITLE;
+
+-- update
+UPDATE EMPLOYEE
+SET empID = 0010
+WHERE name = 'Clark';
+
+-- fetch
+SELECT * FROM EMPLOYEE;
+
+-- delete
+DELETE FROM EMPLOYEE
+WHERE empID = 0010;
+
+-- fetch
+SELECT * FROM EMPLOYEE;
+
+-- insert
+INSERT INTO EMPLOYEE VALUES
+(0001, 'Clark', 'Phoenix', 'Arizona', 'Sales'),
+(0004, 'Lisa', 'Omaha', 'Nebraska', 'Manufacturing'),
+(0005, 'James', 'Miami', 'Florida', 'Accounting');
+
+-- insert
+INSERT INTO JOBTITLE VALUES
+(003, 'Retention Sales Associate');
+
+-- update
+UPDATE EMPLOYEE
+SET city = 'Miami', state = 'Florida'
+WHERE name = 'Dave';
+
+-- fetch
+SELECT * FROM EMPLOYEE ORDER BY dept;
+SELECT * FROM JOBTITLE;
+
+-- drop table
+DROP TABLE JOBTITLE;
+
+-- fetch
+SELECT * FROM JOBTITLE;
+
