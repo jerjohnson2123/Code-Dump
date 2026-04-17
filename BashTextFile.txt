@@ -1,3 +1,5 @@
+ROOTf="/box"
+
 shd(){
   echo -n "current directory: "
 }
@@ -8,13 +10,17 @@ sayHello(){
 }
 
 doMath(){
-  local num1=5; local num2=10; local sum=$((num1 + num2))
+  #local num1=5; local num2=10; local sum=$((num1 + num2))
+  read -p "Enter first number: " num1
+  read -p "Enter second number: " num2
+  local sum=$((num1 + num2))
+  
   if [ $sum -eq  15 ]; then
-    echo -e "\tThe number is: $sum\n"
+    echo -e "The number is: $sum"
   elif [ $sum -lt 15 ]; then
-    echo -e "\tNumber is less than 15\n"
+    echo -e "Number is less than 15"
   else
-    echo -e "\tWe're going to need a new number\n"
+    echo -e "We're going to need a new number"
   fi
 }
 
@@ -47,3 +53,6 @@ doAdvancedFun(){
   echo " Your result is: $sum"
   
 }
+
+
+

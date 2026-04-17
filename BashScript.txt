@@ -1,14 +1,49 @@
 #!/bin/bash
-nano ~/.bashrc #execute this line first then paste the function below into file
-initLookUpCreate(){ #to save and exit nano hit ctrl+0, Enter, then ctrl+x
-  cd / && ls -la && sudo mkdir -v "$1"
+#nano ~/.bashrc #execute this line first then paste the function below into file
+#initLookUpCreate(){ #to save and exit nano hit ctrl+0, Enter, then ctrl+x
+#  cd / && ls -la && sudo mkdir -v "$1"
+#}
+#source ~/.bashrc #execute this line last after the function above has been pasted
+
+#this function creates a new directory in the box directory
+#it also attempts to move box into the new directory but fails
+initLookUpCreate(){
+  mkdir -v -p "$1"
+  
+  if [ -d "box" ]; then
+    mv -v box "$1/"
+    echo -e "\nSuccessfully moved 'box' to $1"
+  else
+    echo -e "\nYA DONE GOOFED: You can't park there!"
+  fi
 }
-source ~/.bashrc #execute this line last after the function above has been pasted
 
-source ~/../box/sample1.txt
+FILE="$HOME/.bashrc" #set variable to ~/.bashrc file
 
+#if else statement to see if FILE can be sourced (opened)
+if [ -r "$FILE" ]; then
+  source "$FILE"
+  echo -e "Successfully source $FILE\n"
+else
+  if [ ! -e "$FILE" ]; then
+    echo -e "YA DONE GOOFED: $FILE does not exist.\n"
+  else
+    echo -e "YA DONE GOOFED: $FILE exists but you do not have permission to read it!\n"
+  fi
+fi
+
+#calls function
+initLookUpCreate "Jeromes_Folder"
+
+source ~/../box/sample1.txt #opens the files "sample1.txt"
+
+#the functions below are called from the sample1.txt file
 echo -e "\n"
 sayHello
+
+echo -e "\nLet's print out the sum of some numbers, maybe."
+mathing=$(doMath)
+echo -e "\t"$mathing
 
 echo -e "\nLet's loop thru something!"
 doLoops
@@ -23,33 +58,89 @@ echo -e "\nLet's check out advance functions!"
 result=$(doAdvancedFun Jerome 5 3)
 echo -e "\t"$result"\n"
 
-shd
-cd /
-pwd
-ls -la
+shd #function that displays "current directory: "
+cd / #changes the working directory to root
+pwd #shows the current working directory
+ls -la #displays a list of files/folders in working directory
 
 echo -e "\n"
 
-shd
-cd box
-pwd
-mkdir jTmp
-ls -la
+shd #function that displays "current directory: "
+cd box #changes the working directory to box folder
+pwd #shows the current working directory
+mkdir -v /box/Jeromes_Folder/jTmp #creates a new folder(directory) called jTmp
+ls -la #displays a list of files/folders in working directory
 
-mv sample1.txt /box/jTmp
+echo -e "\n"
+ls -la Jeromes_Folder
 
 echo -e "\n"
 
-shd
-pwd
-ls -la
+#creates a copy of sample1.txt file to jTmp folder and renames it
+echo -e "Copying sample1 file:"
+cp -v sample1.txt $ROOTf/Jeromes_Folder/jTmp/new_sample1.txt
+
+#echo "Note: Testing adding text to a file" >> /box/jTmp/new_sample1.txt
 
 echo -e "\n"
 
-shd
-cd jTmp
-pwd
-ls -la
+#concatenates new_sample1 file but overwrites text within it
+cat << EOF > $ROOTf/Jeromes_Folder/jTmp/new_sample1.txt
+doSomethingNew(){
+  echo -e "\n--We are going to do something here--"
+  shd
+  pwd
+  ls -la
+  echo -e "\n--Let's search for some words within the file--"
+  
+  #this below finds words with 'loop' in it from both sample files
+  echo -e "...Words from sample1 text file..."
+  grep -i 'loop' sample1.txt
+  echo -e "...Words from new_sample1 text file..."
+  grep -i 'loop' /box/Jeromes_Folder/jTmp/new_sample1.txt
+}
 
-#initLookUpCreate new_folder
+#function that has an if statement to test if we can ping
+doPingTest(){
+  if ping -c 4 google.com > /dev/null 2>&1; then
+    echo "Network is reachable"
+  else
+    echo "Network/Ping is blocked in this environment"
+  fi
+}
+EOF
+
+#displays text from new_sample1 file onto the console
+echo "--NEW FILE CONTENTS--"
+cat /box/Jeromes_Folder/jTmp/new_sample1.txt
+
+source ~/../box/Jeromes_Folder/jTmp/new_sample1.txt
+
+doSomethingNew
+
+echo -e "\n"
+
+shd #function that displays "current directory: "
+pwd #shows the current working directory
+ls -la #displays a list of files/folders in working directory
+
+echo -e "\n"
+
+shd #function that displays "current directory: "
+cd Jeromes_Folder #changes the working directory to jTmp
+pwd #shows the current working directory
+ls -la #displays a list of files/folders in working directory
+
+echo -e "\n"
+
+shd #function that displays "current directory: "
+cd jTmp #changes the working directory to jTmp
+pwd #shows the current working directory
+ls -la #displays a list of files/folders in working directory
+
+echo -e "\n"
+
+doPingTest
+
+
 
